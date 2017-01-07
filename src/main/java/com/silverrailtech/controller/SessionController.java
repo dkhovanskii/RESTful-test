@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,24 +42,39 @@ DELETE /chars/<character> - deletes the last occurrence of the character in the 
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "sum")
-    public String getSum(long id) {
-        return sessionRepository.findOne(id).getState();
+    public Integer getSum(long id) {
+        String str = sessionRepository.findOne(id).getState();
+        str = str.replaceAll("[^0-9]+", " ");
+        List<String> numbers = Arrays.asList(str.trim().split(" "));
+        Integer sum = 0;
+        for (int i = 0; i < numbers.size(); i++) {
+            sum += Integer.decode(numbers.get(i));
+        }
+        return sum;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "chars")
     public String getChars(long id) {
-        return sessionRepository.findOne(id).getState();
+        return sessionRepository.findOne(id).getState().replaceAll("[0-9]+", "");
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "chars/{param}")
-    public String deleteChars(long id) {
-        return sessionRepository.findOne(id).getState();
+    public void deleteChars(long id, String param) {
+        String curState = sessionRepository.findOne(id).getState();
+        int i = curState.lastIndexOf(param.charAt(0));
+        if (i > -1) {
+            curState = curState.substring(0, i - 1) + curState.substring(i, curState.length());
+            sessionRepository.findOne(id).setState(curState);
+        }
     }
 
-
     @RequestMapping(method = RequestMethod.POST, path = "chars")
-    public String addChars(long id) {
-        return sessionRepository.findOne(id).getState();
+    public void addChars(long id, char c, int num) {
+        String curState = sessionRepository.findOne(id).getState();
+        for (int i = 0; i < num; i++) {
+            curState += c;
+        }
+        sessionRepository.findOne(id).setState(curState);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -69,7 +85,7 @@ DELETE /chars/<character> - deletes the last occurrence of the character in the 
     @RequestMapping(method = RequestMethod.POST)
     public void addSession(@RequestBody AddSessionRequest addSessionRequest) {
         Session session = new Session();
-        session.setBroserId(addSessionRequest.getBroserId());
+        session.setBrowserId(addSessionRequest.getBroserId());
         session.setState(addSessionRequest.getState());
         sessionRepository.save(session);
 

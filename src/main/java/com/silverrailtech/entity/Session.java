@@ -1,9 +1,6 @@
 package com.silverrailtech.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,16 +11,22 @@ import java.util.Date;
 public class Session {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
 
-    private String broserId;
+    @Column(name = "browserid")
+    private String browserId;
 
+    @Column(name = "state")
     private String state;
 
+    @Column(name = "accesses")
     private int access;
 
+    @Column(name = "firstaccess")
     private Date firstAccess;
 
+    @Column(name = "lastaccess")
     private Date lastAccess;
 
     public int getId() {
@@ -34,12 +37,12 @@ public class Session {
         this.id = id;
     }
 
-    public String getBroserId() {
-        return broserId;
+    public String getBrowserId() {
+        return browserId;
     }
 
-    public void setBroserId(String broserId) {
-        this.broserId = broserId;
+    public void setBrowserId(String broserId) {
+        this.browserId = broserId;
     }
 
     public String getState() {
