@@ -12,7 +12,6 @@ public class SessionControllerTest {
     @Before
     public void setUp() throws Exception {
 
-        addSession();
 
     }
 

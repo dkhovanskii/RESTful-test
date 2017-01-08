@@ -74,7 +74,7 @@ public class SessionController {
         String curState = session.getState();
         Integer num = charsParameters.getAmount();
         Character c = charsParameters.getCharacter().charAt(0);
-        if ((curState.length() + num > 400) || (num > 9) || (num < -1)) {
+        if ((curState.length() + num > 200) || (num > 9) || (num < -1)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         for (int i = 0; i < num; i++) {
