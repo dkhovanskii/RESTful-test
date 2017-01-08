@@ -96,7 +96,7 @@ public class SessionController {
     public ResponseEntity<String> addChars(String id, Character c, Integer num) {
         Session session = getFirstSessionByBrowserId(id);
         String curState = session.getState();
-        if(curState.length()+num>400){
+        if ((curState.length() + num > 400) || (num > 9) || (num < -1)) {
             return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
         }
         for (int i = 0; i < num; i++) {
