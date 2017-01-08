@@ -72,7 +72,9 @@ public class SessionController {
     @RequestMapping(method = RequestMethod.POST, path = "chars")
     public ResponseEntity<String> addChars(Session session, @Valid @RequestBody CharsParameters charsParameters) {
         if(session==null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            session = new Session();
+            session.setState("");
+            session.setId(java.util.UUID.randomUUID().toString());
         }
         String curState = session.getState();
         Integer num = charsParameters.getAmount();
