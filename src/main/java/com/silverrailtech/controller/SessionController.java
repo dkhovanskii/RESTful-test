@@ -71,6 +71,9 @@ public class SessionController {
     @Transactional
     @RequestMapping(method = RequestMethod.POST, path = "chars")
     public ResponseEntity<String> addChars(Session session, @Valid @RequestBody CharsParameters charsParameters) {
+        if(session==null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         String curState = session.getState();
         Integer num = charsParameters.getAmount();
         Character c = charsParameters.getCharacter().charAt(0);
@@ -82,7 +85,7 @@ public class SessionController {
         }
         session.setState(curState);
         sessionRepository.save(session);
-        return null;
+        return new ResponseEntity<String>(session.getId(),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "chars/{param}")
