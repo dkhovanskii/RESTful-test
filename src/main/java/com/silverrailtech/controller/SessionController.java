@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,7 @@ public class SessionController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "sum")
     public Integer getSum(Session session) {
+        LOGGER.info("Get state for state '" + session.getId() + "'");
         String str = session.getState();
         str = str.replaceAll("[^0-9]+", " ");
         List<String> numbers = Arrays.asList(str.trim().split(" "));
@@ -71,6 +73,10 @@ public class SessionController {
     @Transactional
     @RequestMapping(method = RequestMethod.POST, path = "chars")
     public ResponseEntity<String> addChars(Session session, @Valid @RequestBody CharsParameters charsParameters) {
+        LOGGER.info("Add char(s) for browser '" + session.getId() +
+                "' char='" + charsParameters.getCharacter() +
+                "' amount='" + charsParameters.getAmount() + "'");
+
         String curState = session.getState();
         Integer num = charsParameters.getAmount();
         Character c = charsParameters.getCharacter().charAt(0);
@@ -82,11 +88,13 @@ public class SessionController {
         }
         session.setState(curState);
         sessionRepository.save(session);
-        return new ResponseEntity<String>(session.getId(),HttpStatus.OK);
+        return new ResponseEntity<String>(session.getId(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, path = "chars/{param}")
     public void deleteChars(Session session, @PathVariable Character param) {
+        LOGGER.info("Delete last symbol '" + param + "' for browser '" + session.getId() + "'");
+
         String curState = session.getState();
         int i = curState.lastIndexOf(param);
         if (i > -1) {
