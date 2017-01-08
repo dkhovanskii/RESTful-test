@@ -24,16 +24,15 @@ public class SessionParameterResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer,
             NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String browserId = nativeWebRequest.getNativeRequest(HttpServletRequest.class).getParameter("browserId");
+        String browserId = nativeWebRequest.getNativeRequest(HttpServletRequest.class).getParameter("id");
         if (isNotBlank(browserId)) {
-            Session existingSession = sessionRepository.findOneByBrowserId(browserId);
+            Session existingSession = sessionRepository.findOne(browserId);
             if (existingSession != null) {
                 return existingSession;
             } else {
                 Session session = new Session();
-                session.setBrowserId(browserId);
+                session.setId(browserId);
                 session.setState("");
-                session.setAccess(1);
                 sessionRepository.save(session);
                 return session;
             }

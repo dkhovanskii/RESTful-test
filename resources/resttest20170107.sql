@@ -23,14 +23,10 @@ DROP TABLE IF EXISTS `session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `session` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `browserid` varchar(128) NOT NULL,
+  `id` varchar(100) NOT NULL,
   `state` varchar(200) NOT NULL,
-  `accesses` int(11) NOT NULL DEFAULT '0',
-  `firstaccess` datetime DEFAULT NULL,
-  `lastaccess` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +35,7 @@ CREATE TABLE `session` (
 
 LOCK TABLES `session` WRITE;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
-INSERT INTO `session` VALUES (1,'a1','',0,NULL,NULL),(2,'a2','',0,NULL,NULL),(3,'a3','',0,NULL,NULL);
+INSERT INTO `session` VALUES ('1','a1bc'),('2',''),('3','');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-07 22:07:50
+-- Dump completed on 2017-01-08 22:57:20

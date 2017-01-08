@@ -29,7 +29,7 @@ public class SessionController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "state")
     public String getState(Session session) {
-        LOGGER.info("Get state for browser '" + session.getBrowserId() + "'");
+        LOGGER.info("Get state for browser '" + session.getId() + "'");
         String state = null;
 
         try {
