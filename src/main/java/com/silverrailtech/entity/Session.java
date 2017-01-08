@@ -3,9 +3,6 @@ package com.silverrailtech.entity;
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by d on 6/01/17.
- */
 @Entity
 @Table(name = "session")
 public class Session {
